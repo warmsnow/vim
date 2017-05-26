@@ -1,0 +1,1216 @@
+################################################################################
+# File headers
+################################################################################
+snippet header Common
+	//==============================================================================
+	// Copyright (c) `strftime("%Y")` Authors.
+	//------------------------------------------------------------------------------
+	// Version and Release Control Information:
+	//
+	// $File$
+	//
+	// Description    	: ${1}
+	// Original Author	: 
+	// Created        	: `strftime("%Y/%m/%d")` 
+	//
+	// $Revision$
+	// $Author$
+	// $Date$
+	//
+	//==============================================================================
+
+	////////////////////////////////// END OF FILE /////////////////////////////////
+################################################################################
+# Guard ring
+################################################################################
+snippet ring  `ifndef XXX; `define XXX; `endif
+	\`ifndef ${1:`toupper(substitute(expand('%:t'), '\.', '_', ''))`}
+	\`define $1
+	
+	${2}
+	
+	\`endif // $1
+################################################################################
+# Section separators
+################################################################################
+snippet section Section
+	//==============================================================================
+	// ${1:section}
+	//==============================================================================
+
+snippet section Subsection
+	//------------------------------------------------------------------------------
+	// ${1:subsection}
+	//------------------------------------------------------------------------------
+
+################################################################################
+# UVM Messages
+################################################################################
+snippet info  uvm_info ..
+	\`uvm_info(get_type_name(), $sformatf("${1:MSG}"), UVM_MEDIUM)
+
+snippet error uvm_error ..
+	\`uvm_error("${1:ID}", $sformatf("${2:MSG}"))
+
+snippet warning uvm_warning ..
+	\`uvm_warning("${1:ID}", $sformatf("${2:MSG}"))
+
+snippet fatal  uvm_fatal ..
+	\`uvm_fatal("${1:ID}", $sformatf("${2:MSG}"))
+
+################################################################################
+# UVM Factory Object and Component
+################################################################################
+snippet factory uvm_object_utils .. 
+	\`uvm_object_utils(`Filename()`)
+
+snippet factory uvm_object_utils_begin .. end
+	\`uvm_object_utils_begin(`Filename()`)
+	     //Register fields/array here
+	\`uvm_object_utils_end
+
+snippet factory uvm_object_param_utils ..
+	\`uvm_object_param_utils(`Filename()`)
+
+snippet factory uvm_object_param_utils_begin .. end
+	\`uvm_object_param_utils_begin(`Filename()`)
+	     //Register fields/array here
+	\`uvm_object_utils_end
+
+snippet factory uvm_component_utils .. 
+	\`uvm_component_utils(`Filename()`)
+
+snippet factory uvm_component_utils_begin .. end
+	\`uvm_component_utils_begin(`Filename()`)
+	     //Register fields/array here
+	\`uvm_component_utils_end
+
+snippet factory uvm_component_param_utils ..
+	\`uvm_component_param_utils(`Filename()`)
+
+snippet factory uvm_component_param_utils_begin .. end
+	\`uvm_component_param_utils_begin(`Filename()`)
+	     //Register fields/array here
+	\`uvm_component_utils_end
+
+################################################################################
+# UVM Config Database
+################################################################################
+snippet config config_db::set ..
+	uvm_config_db#(${1:ClassType})::set(${2:Context},"${3:InstName}","${4:FieldName}",${5:Value});
+
+snippet config config_db::get ..
+	if(!uvm_config_db#(${1:ClassType})::get(${2:Context},"${3:InstName}","${4:FieldName}",${5:Value}))
+	    `uvm_warning(get_name(),"$1 is not received")
+
+################################################################################
+# UVM Create object
+################################################################################
+snippet create object_create ..
+	${1:} = ${2:}::type_id::create("$2");
+
+################################################################################
+# UVM Common Phases
+################################################################################
+snippet phase build_phase ..
+	//------------------------------------------------------------------------------
+	// build_phase
+	//------------------------------------------------------------------------------
+		function void `Filename()`::build_phase(uvm_phase phase);
+		    super.build_phase(phase);
+			${1}
+		endfunction : build_phase 
+
+snippet phase connect_phase ..
+	//------------------------------------------------------------------------------
+	// connect_phase
+	//------------------------------------------------------------------------------
+		function void `Filename()`::connect_phase(uvm_phase phase);
+			super.connect_phase(phase);
+			${1}
+		endfunction : connect_phase 
+
+snippet phase end_of_elaboration_phase ..
+	//------------------------------------------------------------------------------
+	// end_of_elaboration_phase
+	//------------------------------------------------------------------------------
+		function void `Filename()`::end_of_elaboration_phase(uvm_phase phase);
+			super.end_of_elaboration_phase(phase);
+			${1}
+		endfunction : end_of_elaboration_phase
+
+snippet phase start_of_simulation_phase ..
+	//------------------------------------------------------------------------------
+	// start_of_simulation_phase
+	//------------------------------------------------------------------------------
+		function void `Filename()`::start_of_simulation_phase(uvm_phase phase);
+			super.start_of_simulation_phase(phase);
+			${1}
+		endfunction : start_of_simulation_phase 
+
+snippet phase run_phase ..
+	//------------------------------------------------------------------------------
+	// run_phase
+	//------------------------------------------------------------------------------
+		task `Filename()`::run_phase(uvm_phase phase);
+			super.run_phase(phase);
+		    ${1}
+		endtask : run_phase
+
+snippet phase extract_phase ..
+	//------------------------------------------------------------------------------
+	// extract_phase
+	//------------------------------------------------------------------------------
+		function void `Filename()`::extract_phase(uvm_phase phase);
+			super.extract_phase(phase);
+		    ${1}
+		endfunction : extract_phase
+
+snippet phase check_phase ..
+	//------------------------------------------------------------------------------
+	// check_phase
+	//------------------------------------------------------------------------------
+		function void `Filename()`::check_phase(uvm_phase phase);
+			super.check_phase(phase);
+		    ${1}
+		endfunction : check_phase
+
+snippet phase report_phase ..
+	//------------------------------------------------------------------------------
+	// report_phase
+	//------------------------------------------------------------------------------
+	    function void `Filename()`::report_phase(uvm_phase phase);
+			super.report_phase(phase);
+			${1}
+		endfunction : report_phase
+
+snippet phase final_phase ..
+	//------------------------------------------------------------------------------
+	// final_phase
+	//------------------------------------------------------------------------------
+	    function void `Filename()`::final_phase(uvm_phase phase);
+			super.final_phase(phase);
+			${1}
+		endfunction : final_phase
+
+################################################################################
+# UVM Run-Time Phases
+################################################################################
+snippet rphase pre_reset_phase ..
+	//------------------------------------------------------------------------------
+	// pre_reset_phase
+	//------------------------------------------------------------------------------
+	    task `Filename()`::pre_reset_phase(uvm_phase phase);
+			super.pre_reset_phase(phase);
+			${1}
+		endtask : pre_reset_phase
+
+snippet rphase reset_phase ..
+	//------------------------------------------------------------------------------
+	// reset_phase
+	//------------------------------------------------------------------------------
+	    task `Filename()`::reset_phase(uvm_phase phase);
+			super.reset_phase(phase);
+			${1}
+		endtask : reset_phase
+
+snippet rphase post_reset_phase ..
+	//------------------------------------------------------------------------------
+	// post_reset_phase
+	//------------------------------------------------------------------------------
+	    task `Filename()`::post_reset_phase(uvm_phase phase);
+			super.post_reset_phase(phase);
+			${1}
+		endtask : post_reset_phase
+
+snippet rphase pre_configure_phase ..
+	//------------------------------------------------------------------------------
+	// pre_configure_phase
+	//------------------------------------------------------------------------------
+	    task `Filename()`::pre_configure_phase(uvm_phase phase);
+			super.pre_configure_phase(phase);
+			${1}
+		endtask : pre_configure_phase
+
+snippet rphase configure_phase ..
+	//------------------------------------------------------------------------------
+	// configure_phase
+	//------------------------------------------------------------------------------
+	    task `Filename()`::configure_phase(uvm_phase phase);
+			super.configure_phase(phase);
+			${1}
+		endtask : configure_phase
+
+snippet rphase post_configure_phase ..
+	//------------------------------------------------------------------------------
+	// post_configure_phase
+	//------------------------------------------------------------------------------
+	    task `Filename()`::post_configure_phase(uvm_phase phase);
+			super.post_configure_phase(phase);
+			${1}
+		endtask : post_configure_phase
+
+snippet rphase pre_main_phase ..
+	//------------------------------------------------------------------------------
+	// pre_main_phase
+	//------------------------------------------------------------------------------
+	    task `Filename()`::pre_main_phase(uvm_phase phase);
+			super.pre_main_phase(phase);
+			${1}
+		endtask : pre_main_phase
+
+snippet rphase main_phase ..
+	//------------------------------------------------------------------------------
+	// main_phase
+	//------------------------------------------------------------------------------
+	    task `Filename()`::main_phase(uvm_phase phase);
+			super.main_phase(phase);
+			${1}
+		endtask : main_phase
+
+snippet rphase post_main_phase ..
+	//------------------------------------------------------------------------------
+	// post_main_phase
+	//------------------------------------------------------------------------------
+	    task `Filename()`::post_main_phase(uvm_phase phase);
+			super.post_main_phase(phase);
+			${1}
+		endtask : post_main_phase
+
+snippet rphase pre_shutdown_phase ..
+	//------------------------------------------------------------------------------
+	// pre_shutdown_phase
+	//------------------------------------------------------------------------------
+	    task `Filename()`::pre_shutdown_phase(uvm_phase phase);
+			super.pre_shutdown_phase(phase);
+			${1}
+		endtask : pre_shutdown_phase
+
+snippet rphase shutdown_phase ..
+	//------------------------------------------------------------------------------
+	// shutdown_phase
+	//------------------------------------------------------------------------------
+	    task `Filename()`::shutdown_phase(uvm_phase phase);
+			super.shutdown_phase(phase);
+			${1}
+		endtask : shutdown_phase
+
+snippet rphase post_shutdown_phase ..
+	//------------------------------------------------------------------------------
+	// post_shutdown_phase
+	//------------------------------------------------------------------------------
+	    task `Filename()`::post_shutdown_phase(uvm_phase phase);
+			super.post_shutdown_phase(phase);
+			${1}
+		endtask : post_shutdown_phase
+
+################################################################################
+# Class
+################################################################################
+snippet class Basic class
+	class ${1:class_name} extends ${2:base_class};
+		
+		// Members and fields
+
+		// Factory registration macros
+
+		// External class methods
+		extern function new(string name="$1");
+
+	endclass : $1
+	
+	//------------------------------------------------------------------------------
+	// Constructor
+	//------------------------------------------------------------------------------
+		function $1::new(string name="$1");
+			super.new(name);
+		endfunction : new
+
+snippet class Parameterized class
+	class ${1:class_name} #(${2:class_parameters}) extends ${2:base_class};
+		
+		// Members and fields
+		${4}
+
+		// Factory registration macros (parameterized)
+
+		// External class methods
+		extern function new(string name="$1");
+
+	endclass : $1
+	
+	//------------------------------------------------------------------------------
+	// Constructor
+	//------------------------------------------------------------------------------
+		function $1::new(string name="$1");
+			super.new(name);
+		endfunction : new
+
+################################################################################
+# External class methods
+################################################################################
+snippet extern virtual_function_void ..
+	extern virtual function void ${1:name}();
+
+snippet extern virtual_function_int ..
+	extern virtual function int ${1:name}();
+
+snippet extern virtual_function_bit ..
+	extern virtual function bit [${2:dimension}] ${1:name}();
+
+snippet extern virtual_task ..
+	extern virtual task ${1:name}();
+
+snippet extern virtual_task_protected ..
+	extern virtual task protected ${1:name}();
+
+################################################################################
+# Function
+################################################################################
+snippet function  function void ..
+	//------------------------------------------------------------------------------
+	// ${1:function_name}
+	//------------------------------------------------------------------------------
+		function void `Filename()`::$1($2);
+			${3}
+		endfunction : $1
+
+snippet function  function int ..
+	//------------------------------------------------------------------------------
+	// ${1:function_name}
+	//------------------------------------------------------------------------------
+		function int `Filename()`::$1($2);
+			${3}
+		endfunction : $1
+
+snippet function  function string ..
+	//------------------------------------------------------------------------------
+	// ${1:function_name}
+	//------------------------------------------------------------------------------
+		function string `Filename()`::$1($2);
+			${3}
+		endfunction : $1
+
+################################################################################
+# UVM Object
+################################################################################
+snippet object UVM Basic Object 
+	class ${1:class_name} extends uvm_object;
+		
+		// Members and fields
+		${2}
+
+		// Factory registration macros
+		\`uvm_object_utils_begin($1)
+			//Register fields/array here
+		\`uvm_object_utils_end
+
+		// External class methods
+		extern function new(string name "$1");
+
+	endclass : $1
+	
+	//------------------------------------------------------------------------------
+	// Constructor
+	//------------------------------------------------------------------------------
+		function $1::new(string name="$1");
+			super.new(name);
+		endfunction : new
+
+snippet object UVM Parameterized object
+	class ${1:class_name} #(${2:class_parameters}) extends uvm_object;
+		
+		// Members and fields
+		${4}
+
+		// Factory registration macros (parameterized)
+		\`uvm_object_param_utils_begin($1)
+			//Register fields/array here
+		\`uvm_object_utils_end
+
+		// External class methods
+		extern function new(string name "$1");
+
+	endclass : $1
+	
+	//------------------------------------------------------------------------------
+	// Constructor
+	//------------------------------------------------------------------------------
+		function $1::new(string name="$1");
+			super.new(name);
+		endfunction : new
+
+################################################################################
+# UVM Component
+################################################################################
+snippet component UVM Basic Component
+	class ${1:component_name} extends uvm_component;
+		
+		// Members and fields
+		${2}
+
+		// Factory registration macros
+		\`uvm_component_utils_begin($1)
+			//Register fields/array here
+		\`uvm_component_utils_end
+
+		// External class methods
+		extern function new(string name="$1", uvm_component parent);
+
+	endclass : $1
+	
+	//------------------------------------------------------------------------------
+	// Constructor
+	//------------------------------------------------------------------------------
+		function $1::new(string name="$1", uvm_component parent);
+			super.new(name, parent);
+		endfunction : new
+
+snippet component UVM Parameterized component
+	class ${1:component_name} #(${2:component_parameters}) extends uvm_component;
+		
+		// Members and fields
+		${4}
+
+		// Factory registration macros (parameterized)
+		\`uvm_component_param_utils_begin($1)
+			//Register fields/array here
+		\`uvm_component_utils_end
+
+		// External class methods
+		extern function new(string name="$1", uvm_component parent);
+
+	endclass : $1
+	
+	//------------------------------------------------------------------------------
+	// Constructor
+	//------------------------------------------------------------------------------
+		function $1::new(string name="$1", uvm_component parent);
+			super.new(name, parent);
+		endfunction : new
+		
+################################################################################
+# UVM Agent
+################################################################################
+snippet agent UVM Agent
+	class ${1:component_name} extends uvm_agent;
+		${2}
+		// Members and fields
+		// TODO : put analysis port
+		// Example :
+		//uvm_analysis_port #(apb_seq_item) ap;
+
+		// Config
+		// TODO : put configuration instance
+		// Example :
+		//apb_master_cfg m_cfg;
+
+		// Driver
+		// TODO : put driver instance
+		// Example :
+		//apb_master_driver                       m_driver;
+		
+		// Monitor
+		// TODO : put monitor instance
+		// Example :
+		//apb_monitor                             m_monitor;
+
+		// Sequencer
+		// TODO : put sequencer instance
+		// Example :
+		//apb_master_sequencer                    m_sequencer;
+
+		// Factory registration macros
+		\`uvm_component_utils_begin($1)
+	        \`uvm_field_object(/*m_cfg*/, UVM_DEFAULT | UVM_REFERENCE)
+			\`uvm_field_object(/*m_monitor*/, UVM_DEFAULT | UVM_REFERENCE)
+			\`uvm_field_object(/*m_sequencer*/, UVM_DEFAULT | UVM_REFERENCE)
+			\`uvm_field_enum(uvm_active_passive_enum, is_active, UVM_DEFAULT)
+		\`uvm_component_utils_end
+
+		// External class methods
+		extern function new(string name "$1");
+		extern virtual function void build_phase(uvm_phase phase);
+		extern virtual function void connect_phase(uvm_phase phase);
+	endclass : $1
+	
+	//------------------------------------------------------------------------------
+	// Constructor
+	//------------------------------------------------------------------------------
+		function $1::new(string name="$1");
+			super.new(name);
+			ap = new("ap", this);
+			// Example : 
+			//m_cfg  = apb_master_cfg::type_id::create("m_cfg", this);
+		endfunction : new
+
+	//------------------------------------------------------------------------------
+	// UVM Build Phase
+	//------------------------------------------------------------------------------
+	    function void $1::build_phase (uvm_phase phase);
+	        super.build_phase(phase);
+	        // TODO : create configuration, driver, monitor and sequencer
+	        // Example :
+	        /*
+			if (m_cfg == null)
+				if (!uvm_config_db#(apb_master_cfg)::get(this, "", "m_cfg", m_cfg))
+					`uvm_error(get_type_id(), "apb_master_cfg not set for this component")
+
+			m_monitor = apb_monitor::type_id::create("m_monitor", this);
+
+			if(m_cfg.is_active == UVM_ACTIVE) begin
+				m_driver = apb_master_driver::type_id::create("m_driver", this);
+				m_sequencer = apb_master_sequencer::type_id::create("m_sequencer", this);
+			end
+			*/
+	    endfunction : build_phase
+
+	//------------------------------------------------------------------------------
+	// UVM Connect Phase
+	//------------------------------------------------------------------------------
+	    function void $1::connect_phase (uvm_phase phase);
+	        super.connect_phase(phase);
+	        // TODO : connect analysis port to monitor instance
+	        // Example :
+	        /*
+	        m_monitor.item_collected_port.connect(ap);
+	        if(m_cfg.is_active == UVM_ACTIVE) begin
+				m_driver.seq_item_port.connect(m_sequencer.seq_item_export);
+			end
+			*/
+	    endfunction : connect_phase
+
+################################################################################
+# UVM Driver
+################################################################################
+
+################################################################################
+# UVM Monitor
+################################################################################
+
+################################################################################
+# UVM Coverage Collector
+################################################################################
+
+################################################################################
+# UVM Sequence Item
+################################################################################
+
+################################################################################
+# UVM Sequence
+################################################################################
+
+################################################################################
+# UVM Sequencer
+################################################################################
+snippet sequencer UVM Basic Sequencer
+	class ${1:class_name} extends uvm_sequencer #(${2:seq_item});
+	
+		typedef $1 SQR;
+
+		// Factory registration macros
+		\`uvm_component_utils_begin($1)
+		\`uvm_component_utils_end
+
+		// External class methods
+		extern function new(string name "$1", 
+							uvm_component parent = null);
+
+	endclass : $1
+	
+	//------------------------------------------------------------------------------
+	// Constructor
+	//------------------------------------------------------------------------------
+		function $1::new(string name="$1", 
+						 uvm_component parent = null);
+			super.new(name, parent);
+		endfunction : new
+
+################################################################################
+# UVM Virtual Sequencer
+################################################################################
+snippet vsequencer UVM Virtual Sequencer
+	class ${1:class_name} extends uvm_virtual_sequencer;
+
+	typedef $1 VSQR;
+
+	// Members
+
+	// Factory registration
+	\`uvm_component_utils_begin($1)
+	\`uvm_component_utils_end
+
+	// External Class Methods
+	extern function new(string name="$1", 
+						uvm_component parent = null);
+
+	endclass : $1
+
+	//------------------------------------------------------------------------------
+	// Constructor
+	//------------------------------------------------------------------------------
+	function $1::new(string name="$1", 
+					 uvm_component parent = null);
+		super.new(name, parent);
+	endfunction : new
+
+################################################################################
+# UVM Scoreboard
+################################################################################
+
+################################################################################
+# UVM Coverage Collector
+################################################################################
+
+################################################################################
+# UVM Environment
+################################################################################
+snippet uvm_env UVM Env ..
+	class ${1:name_env} extends uvm_env;
+
+		// Members
+		// Agents, Config, Sequencers, Scoreboard, Coverage Collector
+		// Example : 
+		//apb_env_cfg             cfg_h;
+		//apb_scoreboard          scbd_h;
+		//apb_coverage_collector  cov_h;
+		// TODO : 
+
+		// Factory registration
+		`uvm_component_utils_begin($1)
+		`uvm_component_utils_end
+
+		// External Class Methods
+		extern function new(string name, uvm_component parent);
+		extern function void build_phase(uvm_phase phase);
+		extern task run_phase(uvm_phase phase);
+		extern function void connect_phase(uvm_phase phase);
+	endclass : $1
+
+	//------------------------------------------------------------------------------
+	// Constructor
+	//------------------------------------------------------------------------------
+		function $1::new(string name, uvm_component parent);
+			super.new(name, parent);
+		endfunction : new
+
+	//------------------------------------------------------------------------------
+	// build_phase
+	//------------------------------------------------------------------------------
+		function void $1::build_phase(uvm_phase phase);
+			super.build_phase(phase);
+			//TODO :
+		endfunction : build_phase
+	
+	//------------------------------------------------------------------------------
+	// connect_phase
+	//------------------------------------------------------------------------------
+		function void $1::connect_phase(uvm_phase phase);
+			super.connect_phase(phase);
+			//TODO :
+		endfunction : connect_phase
+
+	//------------------------------------------------------------------------------
+	// run_phase
+	//------------------------------------------------------------------------------
+		task $1::run_phase(uvm_phase phase);
+			super.run_phase(phase);
+			//TODO :
+		endtask : run_phase
+
+################################################################################
+# UVM Base Test
+################################################################################
+snippet test UVM Base Test ..
+	class ${1:class_name} extends uvm_test;
+
+		// Members
+		bit                 test_pass = 1;
+		uvm_table_printer   printer;
+		int                 test_timeout;
+		
+		// TODO : environment instance
+		// Example : 
+		// main_env main_env_h;
+
+		// Factory registration
+		\`uvm_component_utils_begin($1)
+		\`uvm_component_utils_end
+
+		// External Class Methods
+		extern function new(string name="$1", uvm_component parent);
+		extern virtual function void build_phase(uvm_phase phase);
+		extern virtual function void connect_phase(uvm_phase phase);
+		extern virtual function void end_of_elaboration_phase(uvm_phase phase);
+		extern virtual task run_phase(uvm_phase phase);
+		extern virtual function void report_phase(uvm_phase phase);
+
+	endclass : $1
+
+	//------------------------------------------------------------------------------
+	// Constructor
+	//------------------------------------------------------------------------------
+		function $1::new(string name="$1", 
+									uvm_component parent);
+			super.new(name, parent);
+		endfunction : new
+
+	//------------------------------------------------------------------------------
+	// build_phase
+	//------------------------------------------------------------------------------
+		function void $1::build_phase(uvm_phase phase);
+			super.build_phase(phase);
+			printer = new();
+			printer.knobs.depth = 5;
+			test_timeout = 250000000 * 1ns; //25 ms
+			uvm_top.set_timeout(test_timeout);
+
+			// TODO: Create base environment
+			// Example :
+			// main_env_h = main_env::type_id::create("main_env_h",this);
+
+		endfunction : build_phase 
+
+	//------------------------------------------------------------------------------
+	// connect_phase
+	//------------------------------------------------------------------------------
+		function void $1::connect_phase(uvm_phase phase);
+			super.connect_phase(phase);
+		endfunction : connect_phase 
+
+	//------------------------------------------------------------------------------
+	// end_of_elaboration_phase
+	//------------------------------------------------------------------------------
+		function void $1::end_of_elaboration_phase (uvm_phase phase);
+			super.end_of_elaboration_phase(phase);
+			\`uvm_info(get_type_name(), $sformatf("Printing test topology :\n%s", 
+										this.sprint(printer)), UVM_MEDIUM)
+		endfunction : end_of_elaboration_phase
+
+	//------------------------------------------------------------------------------
+	// run_phase
+	//------------------------------------------------------------------------------
+		task $1::run_phase(uvm_phase phase);
+			super.run_phase(phase);
+			phase.phase_done.set_drain_time(this, 4000); // 4us
+			phase.raise_objection(this);
+			phase.drop_objection(this);
+		endtask : run_phase
+
+	//------------------------------------------------------------------------------
+	// report_phase
+	//------------------------------------------------------------------------------
+		function void $1::report_phase(uvm_phase phase);
+			uvm_report_handler	r_h;
+			uvm_report_server	r_s;
+			string report = "";
+
+			super.report_phase(phase);
+			r_h = get_report_handler();
+			r_s = r_h.get_server();
+
+			$sformat(report,"%s\n-----------------------------",report);
+			if(r_s.get_severity_count(UVM_ERROR) ==0 && r_s.get_severity_count(UVM_FATAL) == 0) begin
+				$sformat(report,"%s\nTestcase PASSED!!!",report);
+			end
+			else begin
+				$sformat(report,"%s\nTestcase FAILED!!!",report);
+			end
+		endfunction : report_phase
+
+################################################################################
+# UVM Test
+################################################################################
+
+################################################################################
+# UVM Register Model
+################################################################################
+
+################################################################################
+# Interface
+################################################################################
+snippet interface  Basic interface ..
+	interface ${1:name_if} (// input wire clk,
+				  // input wire reset
+				  );
+		 timeunit 1ns;
+		 timeprecision 100ps;
+	
+		 // imports
+		 // import pkg::*;
+	
+		 parameter hold_time = 2;	  // timeunit is 1ns
+		 parameter setup_time = 2;	 // change timing values as per requirement
+	
+		 ${2}
+
+		 // Clocking Blocks
+		 // just type clocking and tab to invoke snippet
+	
+		 // Modports
+		 // just type modport and tab to invoke snippet
+	
+	endinterface : $1
+
+snippet interface  SFS interface ..
+	interface ${1:name_if} ();
+	
+	//------------------------------------------------------------------------------
+	//  Interface port list
+	//------------------------------------------------------------------------------
+		${2}
+	
+	//------------------------------------------------------------------------------
+	//  Clocking blocks
+	//------------------------------------------------------------------------------
+
+
+	//------------------------------------------------------------------------------
+	//  Modports
+	//------------------------------------------------------------------------------
+
+
+	//------------------------------------------------------------------------------
+	//  Assertions and protocol checks
+	//------------------------------------------------------------------------------
+
+	endinterface : $1
+
+################################################################################
+# Clocking block
+################################################################################
+snippet clocking  clocking .. { .. }
+	clocking ${1:name_cb} @(posedge ${2:clock});
+		default input #${3:setup_time} output #${4:hold_time};
+		 
+		// output declarations
+		${5}
+
+		// input declarations
+
+	endclocking : $1
+
+################################################################################
+# modport
+################################################################################
+snippet modport  modport .. { .. }
+	modport ${1:name_mp} (
+		${2}
+		// clocking clocking_cb,
+		// input input_name,
+		// output output_port,
+		// ....
+	);
+
+################################################################################
+# Package
+################################################################################
+snippet package Package
+	package ${1:name}
+	
+	${2}
+
+	endpackage : $1
+
+################################################################################
+# enum
+################################################################################
+snippet enum  enum .. { .. }
+	typedef enum {${2}
+				 } ${1:name_e};
+
+################################################################################
+# for
+################################################################################
+snippet for  for() .. 
+	for(${1:int i = 0}; ${2:i <= n}; ${3:i++}) begin
+		${4}
+	end
+
+################################################################################
+# foreach
+################################################################################
+snippet foreach  foreach(x[i]) ..
+	foreach(${1:x}[i]) begin
+		${2}
+	end
+
+################################################################################
+# fork join
+################################################################################
+snippet fork  fork .. join
+	fork
+		 begin
+			${1}
+		 end
+		 begin
+	
+		 end
+	join
+
+snippet fork  fork .. join_any
+	fork
+		 begin
+			${1}
+		 end
+		 begin
+	
+		 end
+	join_any
+
+snippet fork  fork .. join_none
+	fork
+		 begin
+			${1}
+		 end
+		 begin
+	
+		 end
+	join_none
+
+################################################################################
+# program
+################################################################################
+snippet program  program .. { .. }
+	program automatic ${1:name};
+		// declarations
+		${2}
+	
+		initial begin
+	
+		end
+	endprogram : $1
+
+################################################################################
+# struct
+################################################################################
+snippet struct  struct ... { ... }
+	typedef struct {
+		${2}
+		} ${1:name_s};
+
+################################################################################
+# Task
+################################################################################
+snippet task  task .. endtask
+	//------------------------------------------------------------------------------
+	// ${1:task_name}
+	//------------------------------------------------------------------------------
+		task `Filename()`::$1($2);
+			${3}
+		endtask : $1
+
+################################################################################
+# typedef
+################################################################################
+snippet typedef  typedef ..
+	typedef ${1:type} ${2:type_name};
+	${3}
+
+################################################################################
+# union
+################################################################################
+snippet union  union ... { ... }
+	typedef union {
+		${2}
+	} ${1:name_u};
+
+################################################################################
+# while
+################################################################################
+snippet while  while() ..
+	while (${1:condition}) begin
+		${2}
+	end
+
+################################################################################
+# always 
+################################################################################
+snippet always  always @ ..
+	always @(${1:posedge clk}) begin
+		${2}
+	end
+
+snippet always  always_comb ..
+	always_comb begin
+		${1}
+	end
+
+snippet always_comb  always_comb ..
+	always_comb begin
+		${1}
+	end
+
+snippet always  always_ff ..
+	always_ff @(${1:posedge clk or negedge reset_n})
+		${2}
+	end
+
+snippet always_ff  always_ff ..
+	always_ff @(${1:posedge clk or negedge reset_n})
+		${2}
+	end
+
+snippet always  always_latch ..
+	always_latch
+		${1}
+	end
+
+snippet always_latch  always_latch ..
+	always_latch
+		${1}
+	end
+
+################################################################################
+# case 
+################################################################################
+snippet case  case() .. 
+	case(${1:expression})
+		${2:value1} : begin
+			${3}
+		end
+	
+		// other case branches
+	
+		default : begin
+			
+		end
+	endcase
+
+snippet case  casex() .. 
+	casex(${1:expression})
+		${2:value1} : begin
+			${3}
+		end
+	
+		// other case branches
+	
+		default : begin
+		
+		end
+	endcase
+
+snippet casex  casex() .. 
+	casex(${1:expression})
+		${2:value1} : begin
+			${3}
+		end
+	
+		// other case branches
+	
+		default : begin
+			
+		end
+	endcase
+
+snippet case  casez() .. 
+	casez(${1:expression})
+		${2:value1} : begin
+			${3}
+		end
+	
+		// other case branches
+	
+		default : begin
+			
+		end
+	endcase
+
+snippet casez  casez() .. 
+	casez(${1:expression})
+		${2:value1} : begin
+			${3}
+		end
+	
+		// other case branches
+	
+		default : begin
+			
+		end
+	endcase
+
+snippet randcase  randcase ..
+	randcase;
+		${1:weight1}:
+			${3}
+		${2:weight2}:
+	endcase
+
+################################################################################
+# if
+################################################################################
+snippet if  if() .. 
+	if(${1:condition}) begin
+		${2}
+	end
+
+snippet if  if() .. else
+	if(${1:condition}) begin
+		${2}
+	end
+	else begin
+		${3}
+	end
+
+################################################################################
+# do while
+################################################################################
+snippet do  do .. while()
+	do begin
+		${2}
+	end while($1);
+
+################################################################################
+# final
+################################################################################
+snippet final  final ..
+	final begin
+		${1}
+	end
+
+################################################################################
+# forever
+################################################################################
+snippet forever  forever .. 
+	forever begin
+		${1}
+	end
+
+################################################################################
+# covergroup
+################################################################################
+snippet cover  covergroup .. endgroup
+	covergroup ${1:function_name};
+		${2}
+	endgroup : $1
+
+################################################################################
+# initial
+################################################################################
+snippet initial  initial ..
+	initial begin
+		${1}
+	end
+
+################################################################################
+# module .. endmodule
+################################################################################
+snippet module  module .. endmodule
+	module ${1:module_name} (/*port details*/);
+		${2}
+	endmodule : $1
+
+################################################################################
+# parameter
+################################################################################
+snippet parameter  parameter .. 
+	parameter ${1:param_name} = ${2:param_value};
+	${3}
+
+################################################################################
+# repeat
+################################################################################
+snippet repeat  repeat(N) ..
+	repeat(${1:N}) begin
+		${2}
+	end

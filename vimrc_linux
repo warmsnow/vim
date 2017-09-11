@@ -1,0 +1,556 @@
+execute pathogen#infect()
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => General
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Sets how many lines of history VIM has to remember
+set history=700
+
+" Enable filetype plugins
+filetype plugin on
+filetype indent on
+
+" Set to auto read when a file is changed from the outside
+set autoread
+
+" With a map leader it's possible to do extra key combinations
+" like <leader>w saves the current file
+let mapleader = ","
+let g:mapleader = ","
+
+" Fast saving
+nmap <leader>w :w!<cr>
+
+" :W sudo saves the file
+" (useful for handling the permission-denied error)
+"command W w !sudo tee % > /dev/null
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => VIM user interface
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Set 7 lines to the cursor - when moving vertically using j/k
+set so=7
+
+" Avoid garbled characters in Chinese language windows OS
+let $LANG='en'
+set langmenu=en
+source $VIMRUNTIME/delmenu.vim
+source $VIMRUNTIME/menu.vim
+
+" Turn on the WiLd menu
+set wildmenu
+
+" Ignore compiled files
+set wildignore=*.o,*~,*.pyc
+if has("win16") || has("win32")
+    set wildignore+=*/.git/*,*/.hg/*,*/.svn/*,*/.DS_Store
+else
+    set wildignore+=.git\*,.hg\*,.svn\*
+endif
+
+"Always show current position
+set ruler
+
+" A buffer becomes hidden when it is abandoned
+set hid
+
+" Configure backspace so it acts as it should act
+set backspace=eol,start,indent
+set whichwrap+=<,>,h,l
+
+" Ignore case when searching
+set ignorecase
+
+" When searching try to be smart about cases
+set smartcase
+
+" Highlight search results
+set hlsearch
+
+" Makes search act like search in modern browsers
+set incsearch
+
+" Don't redraw while executing macros (good performance config)
+set lazyredraw
+
+" For regular expressions turn magic on
+set magic
+
+" Show matching brackets when text indicator is over them
+set showmatch
+
+" How many tenths of a second to blink when matching brackets
+set mat=2
+
+" No annoying sound on errors
+set noerrorbells
+set novisualbell
+set t_vb=
+set tm=500
+
+" Add a bit extra margin to the left
+set foldcolumn=1
+
+" Copy selection to clipboard   
+set go+=a
+
+" Highlight column 80
+"set colorcolumn=80
+"highlight ColorColumn ctermbg=darkgray
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => GUI related
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Pretty fonts
+set antialias
+
+" Set font according to system
+if has("mac") || has("macunix")
+
+    set gfn=Source\ Code\ Pro:h15,Menlo:h15
+
+elseif has("win16") || has("win32")
+    "set gfn=Source\ Code\ Pro:h9,Bitstream\ Vera\ Sans\ Mono:h8
+    set guifont=Sauce\ Code\ Powerline:h10
+
+elseif has("linux")
+    set guifont=Sauce\ Code\ Powerline:h9
+    "set gfn=Source\ Code\ Pro:h12,Bitstream\ Vera\ Sans\ Mono:h11
+elseif has("unix")
+
+    set gfn=Monospace\ 10
+endif
+
+" Open Vim in fullscreen mode
+if has("gui_running")
+  " GUI is running or is about to start.
+  " Maximize gvim window (for an alternative on Windows, see simalt below).
+  "set lines=999 columns=999
+  "set lines=60 columns=220
+  set lines=50 columns=200
+  set guioptions-=T
+else
+  " This is console Vim.
+  if exists("+lines")
+    set lines=50
+  endif
+  if exists("+columns")
+    set columns=100
+  endif
+endif
+
+" Disable scrollbars (real hackers don't use scrollbars for navigation!)
+set guioptions-=r
+set guioptions-=R
+set guioptions-=l
+set guioptions-=L
+
+set guioptions-=T
+set guioptions-=e
+set t_Co=256
+set guitablabel=%M\ %t
+
+syntax enable 
+
+" Set utf8 as standard encoding and en_US as the standard language
+set encoding=utf8
+
+" Use Unix as the standard file type
+set ffs=unix,dos,mac
+
+nnoremap <silent> <leader>z :Goyo<cr>
+nmap , <leader><leader>f
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => Color schemes
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+"----------
+" Dark
+"----------
+"colorscheme abbott
+"colorscheme clearance
+"colorscheme darth
+"colorscheme heroku
+"colorscheme solarized
+"colorscheme torte
+"colorscheme molokai
+"colorscheme Tomorrow-Night
+"colorscheme Tomorrow-Night-Blue
+"colorscheme Tomorrow-Night-Bright
+"colorscheme Tomorrow-Night-Eighties
+
+" BEST
+colorscheme phd
+"colorscheme wombat
+"colorscheme hybrid
+"colorscheme inkpot
+"colorscheme jellybeans
+"colorscheme SlateDark
+
+"----------
+" Light
+"----------
+"colorscheme Tomorrow
+"colorscheme heroku-terminal
+
+"if strftime("%H") >= 5 && strftime("%H") <= 17
+"  set background=light
+"else
+  set background=dark
+"endif
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => Code folding
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+set foldenable
+set foldmethod=marker
+set foldnestmax=100
+set foldlevel=1
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => VIM useful mappings
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Map Y to act like D and C, i.e. to yank until EOL, rather than act as yy,
+" which is the default
+map Y y$
+
+" Toggle NERDTree
+map <C-n> :NERDTreeToggle<CR>
+
+" Useful mappings for managing buffers
+" Previous buffer
+"map <leader>bp :bp<CR>
+nmap <F2> :bp<CR>
+" Next buffer
+"map <leader>bn :bn<CR>
+nmap <F3> :bn<CR>
+
+" Mappings for Cut/Copy/Paste
+vmap <C-c> "+yi
+vmap <C-x> "+c
+vmap <C-v> c<ESC>"+p
+imap <C-v> <C-r><C-o>+
+
+" Map <C-L> (redraw screen) to also turn off search highlighting until the
+" next search
+nnoremap <C-L> :nohl<CR><C-L>
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => Parenthesis/bracket
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+vnoremap $1 <esc>`>a)<esc>`<i(<esc>
+vnoremap $2 <esc>`>a]<esc>`<i[<esc>
+vnoremap $3 <esc>`>a}<esc>`<i{<esc>
+vnoremap $$ <esc>`>a"<esc>`<i"<esc>
+vnoremap $q <esc>`>a'<esc>`<i'<esc>
+vnoremap $e <esc>`>a"<esc>`<i"<esc>
+" Map auto complete of (, ", ', [
+inoremap $1 ()<esc>i
+inoremap $2 []<esc>i
+inoremap $3 {}<esc>i
+inoremap $4 {<esc>o}<esc>O
+inoremap $q ''<esc>i
+inoremap $e ""<esc>i
+inoremap $t <><esc>i
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => General abbreviations
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+iab xdate <c-r>=strftime("%d/%m/%y %H:%M:%S")<cr>
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => Text, tab and indent related
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Use spaces instead of tabs
+set expandtab
+
+" Be smart when using tabs ;)
+set smarttab
+
+" Default indent
+" 1 tab == 4 spaces
+set shiftwidth=4
+set softtabstop=4
+set tabstop=4
+
+" YAML files, 2 spaces
+autocmd Filetype yaml setlocal ts=2 sw=2 expandtab
+
+" Linebreak on 500 characters
+set lbr
+set tw=500
+
+set ai "Auto indent
+set si "Smart indent
+
+"set wrap "Wrap lines
+set nowrap "Don't wrap lines
+
+" When opening a new line and no filetype-specific indenting is enabled, keep
+" the same indent as the line you're currently on. Useful for READMEs, etc.
+"set autoindent
+set copyindent
+
+" Stop certain movements from always going to the first character of a line.
+" While this behaviour deviates from that of Vi, it does what most users
+" coming from other editors would expect.
+set nostartofline
+
+""""""""""""""""""""""""""""""
+" => Visual mode related
+""""""""""""""""""""""""""""""
+" Visual mode pressing * or # searches for the current selection
+" Super useful! From an idea by Michael Naumann
+vnoremap <silent> * :call VisualSelection('f', '')<CR>
+vnoremap <silent> # :call VisualSelection('b', '')<CR>
+
+" Enable use of the mouse for all modes
+set mouse=a
+
+" Set the command window height to 1 line, to avoid many cases of having to
+" "press <Enter> to continue"
+set cmdheight=1
+
+" Display line numbers on the left
+set number
+
+" Quickly time out on keycodes, but never time out on mappings
+set notimeout ttimeout ttimeoutlen=200
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => Moving around, tabs, windows and buffers
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Treat long lines as break lines (useful when moving around in them)
+map j gj
+map k gk
+
+" Disable highlight when <leader><cr> or Ctrl-L is pressed
+map <silent> <leader><cr> :noh<cr>
+noremap <C-L> :nohl<CR><C-L>
+
+" Smart way to move between windows
+"map <C-j> <C-W>j
+"map <C-k> <C-W>k
+"map <C-h> <C-W>h
+"map <C-l> <C-W>l
+
+" Useful mappings for managing tabs
+map <leader>tn :tabnew<cr>
+map <leader>to :tabonly<cr>
+map <leader>tc :tabclose<cr>
+map <leader>tm :tabmove
+map <leader>t<leader> :tabnext
+
+" Let 'tl' toggle between this and the last accessed tab
+let g:lasttab = 1
+nmap <Leader>tl :exe "tabn ".g:lasttab<CR>
+au TabLeave * let g:lasttab = tabpagenr()
+
+" Opens a new tab with the current buffer's path
+" Super useful when editing files in the same directory
+map <leader>te :tabedit <c-r>=expand("%:p:h")<cr>/
+
+" Switch CWD to the directory of the open buffer
+map <leader>cd :cd %:p:h<cr>:pwd<cr>
+
+" Specify the behavior when switching between buffers
+try
+    set switchbuf=useopen,usetab,newtab
+    set stal=2
+    catch
+endtry
+
+" Return to last edit position when opening files (You want this!)
+autocmd BufReadPost *
+\ if line("'\"") > 0 && line("'\"") <= line("$") |
+\ exe "normal! g`\"" |
+\ endif
+
+" Remember info about open buffers on close
+set viminfo^=%
+
+" Use CTRL-S for saving, also in Insert mode
+noremap <C-S> :update<CR>
+vnoremap <C-S> <C-C>:update<CR>
+inoremap <C-S> <C-O>:update<CR>
+
+"inoremap <C-s> <esc>:w<cr>a
+"nnoremap <C-s> :w<cr>a
+"
+""""""""""""""""""""""""""""""
+" => Status line
+""""""""""""""""""""""""""""""
+" Always show the status line
+set laststatus=2
+
+" Format the status line
+set statusline=\ %{HasPaste()}%F%m%r%h\ %w\ \ CWD:\ %r%{getcwd()}%h\ \ \ Line:\ %l
+
+let g:airline#extensions#tabline#enabled = 1
+
+" Show just the filename
+let g:airline#extensions#tabline#fnamemod = ':t'
+"let g:airline_powerline_fonts = 1
+let g:Powerline_symbols = 'fancy'
+
+"if !exists('g:airline_symbols')"
+"let g:airline_symbols = {}
+"endif
+
+let g:airline_theme = 'powerlineish'
+"let g:airline_enable_branch     = 1
+let g:airline_enable_syntastic  = 1
+
+set noshowmode
+
+"noremap <C-L> :nohl<CR><C-L>
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => Editing mappings
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Remap VIM 0 to first non-blank character
+map 0 ^
+" Move a line of text using ALT+[jk] or Comamnd+[jk] on mac
+nmap <M-j> mz:m+<cr>`z
+nmap <M-k> mz:m-2<cr>`z
+vmap <M-j> :m'>+<cr>`<my`>mzgv`yo`z
+vmap <M-k> :m'<-2<cr>`>my`<mzgv`yo`z
+
+if has("mac") || has("macunix")
+    nmap <D-j> <M-j>
+    nmap <D-k> <M-k>
+    vmap <D-j> <M-j>
+    vmap <D-k> <M-k>
+endif
+
+" Delete trailing white space on save, useful for Python and CoffeeScript ;)
+func! DeleteTrailingWS()
+    exe "normal mz"
+    %s/\s\+$//ge
+    exe "normal `z"
+endfunc
+
+autocmd BufWrite *.py :call DeleteTrailingWS()
+autocmd BufWrite *.coffee :call DeleteTrailingWS()
+
+" Turn off syntax highligh for specific files
+"au BufNewFile,BufRead *.f set syntax=off
+au BufNewFile,BufRead *.f set filetype=tcl " *.f
+
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"=> NERDTree config
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+autocmd StdinReadPre * let s:std_in=1
+"autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"=> Perforce Mappings
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+nnoremap @p4a :!p4 add %
+nnoremap @p4e :!p4 edit %
+nnoremap @p4d :!p4 diff %
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"=> BBye Settings 
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+:nnoremap <Leader>q :Bdelete<CR>
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"=> Unite Settings 
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+nnoremap <C-p> :Unite file_rec/async<cr>
+nnoremap <space>/ :Unite grep:.<cr>
+let g:unite_source_history_yank_enable = 1
+nnoremap <space>y :Unite history/yank<cr>
+nnoremap <space>s :Unite -quick-match buffer<cr>
+
+" Returns true if paste mode is enabled
+function! HasPaste()
+    if &paste
+        return 'PASTE MODE  '
+    en
+    return ''
+endfunction
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" VIM Tagbar settings
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+nmap <F8> :TagbarToggle<CR>
+"if has("win16") || has("win32")
+"    let g:tagbar_ctags_bin = 'd:\Work\Apps\vim\ctags58\ctags.exe'
+"else
+    let g:tagbar_ctags_bin = '~/.vim/ctags/bin/ctags'
+"endif
+let g:tagbar_foldlevel = 0
+let g:tagbar_autoclose = 0
+let g:tagbar_width = 30
+let g:tagbar_autofocus = 1
+let g:tagbar_sort = 0
+let g:tagbar_compact = 1
+let g:tagbar_type_verilog_systemverilog = {
+        \ 'ctagstype'   : 'SystemVerilog',
+        \ 'kinds'       : [
+            \ 'b:blocks:1:1',
+            \ 'c:constants:1:0',
+            \ 'e:events:1:0',
+            \ 'f:functions:1:1',
+            \ 'm:modules:0:1',
+            \ 'n:nets:1:0',
+            \ 'p:ports:1:0',
+            \ 'r:registers:1:0',
+            \ 't:tasks:1:1',
+            \ 'A:assertions:1:1',
+            \ 'C:classes:0:1',
+            \ 'V:covergroups:0:1',
+            \ 'I:interfaces:0:1',
+            \ 'M:modport:0:1',
+            \ 'K:packages:0:1',
+            \ 'P:programs:0:1',
+            \ 'R:properties:0:1',
+            \ 'T:typedefs:0:1'
+        \ ],
+        \ 'sro'         : '.',
+        \ 'kind2scope'  : {
+            \ 'm' : 'module',
+            \ 'b' : 'block',
+            \ 't' : 'task',
+            \ 'f' : 'function',
+            \ 'C' : 'class',
+            \ 'V' : 'covergroup',
+            \ 'I' : 'interface',
+            \ 'K' : 'package',
+            \ 'P' : 'program',
+            \ 'R' : 'property'
+        \ },
+    \ }
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"=> VIM Bookmarks 
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"Add/remove bookmark at current line	    mm	:ToggleBookmark
+"Add/edit/remove annotation at current line	mi	:Annotate <TEXT>
+"Jump to next bookmark in buffer	        mn	:NextBookmark
+"Jump to previous bookmark in buffer	    mp	:PrevBookmark
+"Show all bookmarks	                        ma	:ShowAllBookmarks
+"Clear bookmarks in current buffer only	    mc	:ClearBookmarks
+"Clear bookmarks in all buffers	            mx	:ClearAllBookmarks
+"Save all bookmarks to a file		            :SaveBookmarks <FILE_PATH>
+"Load bookmarks from a file		                :LoadBookmarks <FILE_PATH>
+
+"let g:bookmark_sign = '=>'
+"let g:bookmark_annotation_sign = '##'
+"let g:bookmark_auto_save = 0
+"let g:bookmark_auto_save_file = '/bookmarks'
+"let g:bookmark_highlight_lines = 0
+"let g:bookmark_show_warning = 0
+
+" Highlight bookmarks
+"highlight BookmarkSign ctermbg=whatever ctermfg=whatever
+"highlight BookmarkAnnotationSign ctermbg=whatever ctermfg=whatever
+"highlight BookmarkLine ctermbg=whatever ctermfg=whatever
+"highlight BookmarkAnnotationLine ctermbg=whatever ctermfg=whatever
+
+"
+"nnoremap <leader>t <plug>Align

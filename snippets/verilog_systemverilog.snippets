@@ -681,10 +681,12 @@ snippet uvm_env UVM Env ..
 		`uvm_component_utils_end
 
 		// External Class Methods
-		extern function new(string name, uvm_component parent);
+		extern function new(string name, uvm_component parent = null);
 		extern function void build_phase(uvm_phase phase);
-		extern task run_phase(uvm_phase phase);
+		extern virtual function void end_of_elaboration_phase(uvm_phase phase);
 		extern function void connect_phase(uvm_phase phase);
+		extern task run_phase(uvm_phase phase);
+		extern virtual function void reset_reg_model();
 	endclass : `Filename()`
 
 	//------------------------------------------------------------------------------
@@ -711,6 +713,14 @@ snippet uvm_env UVM Env ..
 		endfunction : connect_phase
 
 	//------------------------------------------------------------------------------
+	// end_of_elaboration_phase
+	//------------------------------------------------------------------------------
+		function void `Filename()`::end_of_elaboration_phase(uvm_phase phase);
+			super.end_of_elaboration_phase(phase);
+			//TODO :
+		endfunction : connect_phase
+
+	//------------------------------------------------------------------------------
 	// run_phase
 	//------------------------------------------------------------------------------
 		task `Filename()`::run_phase(uvm_phase phase);
@@ -718,6 +728,12 @@ snippet uvm_env UVM Env ..
 			//TODO :
 		endtask : run_phase
 
+	//------------------------------------------------------------------------------
+	// reset_reg_model
+	//------------------------------------------------------------------------------
+	    function void `Filename()`::reset_reg_model();
+	        reg_model_h.reset();
+	    endfunction : reset_reg_model
 ################################################################################
 # UVM Base Test
 ################################################################################
